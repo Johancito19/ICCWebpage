@@ -1,3 +1,4 @@
+import AccesosRapidos from "@/components/publico/AccesosRapidos";
 import EncabezadoPublico from "@/components/publico/EncabezadoPublico";
 import HeroPublico from "@/components/publico/HeroPublico";
 import "@/styles/publico.css";
@@ -9,7 +10,7 @@ export default function HomePublico() {
       <main>
         <HeroPublico />
 
-        <div id="accesos" />
+        <AccesosRapidos />
 
         <section className="pub-section" aria-labelledby="nosotros">
           <div className="pub-container">
