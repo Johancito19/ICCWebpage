@@ -1,6 +1,7 @@
 import AccesosRapidos from "@/components/publico/AccesosRapidos";
 import EncabezadoPublico from "@/components/publico/EncabezadoPublico";
 import HeroPublico from "@/components/publico/HeroPublico";
+import PerspectivaIcc from "@/components/publico/PerspectivaIcc";
 import QuienesSomos from "@/components/publico/QuienesSomos";
 import "@/styles/publico.css";
 
@@ -15,11 +16,7 @@ export default function HomePublico() {
 
         <QuienesSomos />
 
-        <section className="pub-section pub-section--dark" aria-labelledby="cifras">
-          <div className="pub-container">
-            <h2 className="pub-eyebrow" id="cifras">ICC en perspectiva</h2>
-          </div>
-        </section>
+        <PerspectivaIcc />
 
         <section className="pub-section" aria-labelledby="areas">
           <div className="pub-container">
