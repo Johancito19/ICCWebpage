@@ -50,7 +50,7 @@ export default function EncabezadoPublico() {
 
         <span className="btn-amarillo pub-admissions" role="link" aria-disabled="true">
           Admisiones
-          <span className="pub-admissions-arrow" aria-hidden="true" />
+          <span className="pub-arrow" aria-hidden="true" />
         </span>
       </div>
     </header>

@@ -1,4 +1,5 @@
 import EncabezadoPublico from "@/components/publico/EncabezadoPublico";
+import HeroPublico from "@/components/publico/HeroPublico";
 import "@/styles/publico.css";
 
 export default function HomePublico() {
@@ -6,16 +7,7 @@ export default function HomePublico() {
     <div className="pub-home">
       <EncabezadoPublico />
       <main>
-        <section className="pub-section pub-section--dark" aria-labelledby="inicio">
-          <div className="pub-container">
-            <p className="pub-eyebrow">Ingeniería en Ciencias de la Computación</p>
-            <h1 className="pub-title" id="inicio">
-              Construye el futuro
-              <br />
-              desde Honduras
-            </h1>
-          </div>
-        </section>
+        <HeroPublico />
 
         <div id="accesos" />
 
