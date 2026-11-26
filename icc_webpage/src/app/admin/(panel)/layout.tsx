@@ -1,4 +1,9 @@
-﻿import Link from "next/link";
+"use client";
+
+import { useState } from "react";
+import Sidebar from "@/components/admin/Sidebar";
+import Topbar from "@/components/admin/Topbar";
+import ModalCerrarSesion from "@/components/admin/ModalCerrarSesion";
 import "@/styles/admin-base.css";
 
 export default function AdminPanelLayout({
@@ -6,28 +11,21 @@ export default function AdminPanelLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [modalSalirAbierto, setModalSalirAbierto] = useState(false);
+
   return (
     <div className="adm-shell">
-      <aside className="adm-sidebar">
-        <div className="adm-sidebar-logo">
-          ICC · <span>UNICAH</span>
-        </div>
-        <nav className="adm-nav">
-          <Link href="/admin" className="adm-nav-link">Dashboard</Link>
-          <Link href="/admin/hero" className="adm-nav-link">Hero y Cifras</Link>
-          <Link href="/admin/noticias" className="adm-nav-link">Noticias y Eventos</Link>
-          <Link href="/admin/areas" className="adm-nav-link">Áreas y Aliados</Link>
-          <Link href="/admin/usuarios" className="adm-nav-link">Usuarios y Accesos</Link>
-        </nav>
-      </aside>
+      <Sidebar onAbrirModalSalir={() => setModalSalirAbierto(true)} />
 
       <div className="adm-main">
-        <header className="adm-topbar">
-          <span className="adm-topbar-title">Panel de Administración</span>
-          <Link href="/admin/login" className="btn-outline">Cerrar sesión</Link>
-        </header>
+        <Topbar />
         <div className="adm-content">{children}</div>
       </div>
+
+      <ModalCerrarSesion
+        abierto={modalSalirAbierto}
+        onCerrar={() => setModalSalirAbierto(false)}
+      />
     </div>
   );
 }
