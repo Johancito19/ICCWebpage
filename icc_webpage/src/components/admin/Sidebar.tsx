@@ -82,8 +82,8 @@ export default function Sidebar({ onAbrirModalSalir }: SidebarProps) {
           </Link>
 
           <Link
-            href="/admin/areas"
-            className="adm-nav-link"
+            href="/admin/docentes"
+            className={`adm-nav-link ${esActivo("/admin/docentes") ? "adm-nav-link-active" : ""}`}
           >
             <svg viewBox="0 0 20 20" fill="none" className="adm-nav-icon">
               <path

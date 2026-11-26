@@ -33,6 +33,13 @@ const CONFIG_POR_RUTA: Record<string, TopbarConfig> = {
     textoBotonPrimario: "+ Nueva noticia",
     hrefBotonPrimario: "/admin/noticias",
   },
+  "/admin/docentes": {
+    breadcrumb: "ICC · UNICAH / ACTUALIDAD ICC",
+    titulo: "Gestión de Docentes y Plan de Estudios",
+    placeholderBusqueda: "Buscar sección o entrada...",
+    textoBotonPrimario: "+ Agregar Docente",
+    hrefBotonPrimario: "/admin/docentes",
+  },
   "/admin/areas": {
     breadcrumb: "ICC · UNICAH / ESTRUCTURA ACADÉMICA",
     titulo: "Gestión de Áreas, Laboratorios y Aliados de Vinculación",

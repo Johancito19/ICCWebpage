@@ -143,3 +143,67 @@ export const FOTO_PORTADA_INICIAL: DatosFotografiaPortada = {
     "Estudiantes de Ingeniería en Ciencias de la Computación en laboratorio UNICAH",
 };
 
+/* ==========================================
+   DATOS: DOCENTES Y PLAN DE ESTUDIOS (/admin/docentes)
+   ========================================== */
+export interface PerfilDocenteAdmin {
+  id: string;
+  nombreCargo: string;
+  especialidadJornada: string;
+  periodo: string;
+  estadoTexto: string;
+  estadoTipo: TipoEstadoSeccion;
+}
+
+export interface DocumentoPlanEstudios {
+  etiqueta: string;
+  nombreArchivo: string;
+  detalle: string;
+}
+
+export const PERFILES_DOCENTES_ADMIN: PerfilDocenteAdmin[] = [
+  {
+    id: "doc-1",
+    nombreCargo: "Ing. Josué Daniel Mata · Coordinador Académico ICC",
+    especialidadJornada:
+      "Ingeniería de Software y Arquitectura Web · Tiempo completo",
+    periodo: "Activo · 2026",
+    estadoTexto: "Destacada",
+    estadoTipo: "publicado",
+  },
+  {
+    id: "doc-2",
+    nombreCargo: "M.Sc. María José López · Docente Investigadora",
+    especialidadJornada:
+      "Ciencia de Datos e Inteligencia Artificial · Tiempo completo",
+    periodo: "Activo · 2026",
+    estadoTexto: "Publicado",
+    estadoTipo: "publicado",
+  },
+  {
+    id: "doc-3",
+    nombreCargo: "Ing. Carlos Alberto Mejía · Especialista en Redes",
+    especialidadJornada:
+      "Redes, Ciberseguridad y Telecomunicaciones · Hora clase",
+    periodo: "Activo · 2026",
+    estadoTexto: "Publicado",
+    estadoTipo: "publicado",
+  },
+  {
+    id: "doc-4",
+    nombreCargo: "M.Sc. Ana Lucía Rodríguez · Docente de Sistemas",
+    especialidadJornada:
+      "Bases de Datos y Gestión de Proyectos · Pendiente foto oficial",
+    periodo: "Nuevo · 2026",
+    estadoTexto: "Borrador",
+    estadoTipo: "neutral",
+  },
+];
+
+export const PLAN_ESTUDIOS_VIGENTE: DocumentoPlanEstudios = {
+  etiqueta: "Documento PDF Oficial",
+  nombreArchivo: "plan-estudios-icc-unicah.pdf",
+  detalle: "Versión 2026 · 2.4 MB · Descarga pública",
+};
+
+

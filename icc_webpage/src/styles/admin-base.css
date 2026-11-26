@@ -1262,3 +1262,165 @@
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* ==========================================
+   VISTA DOCENTES Y PLAN DE ESTUDIOS (/admin/docentes)
+   ========================================== */
+.adm-docentes-grid {
+  display: grid;
+  grid-template-columns: 1.85fr 1fr;
+  gap: 1.35rem;
+  align-items: start;
+}
+
+.adm-docentes-card {
+  padding: 1.65rem 1.75rem;
+  border-radius: 12px;
+  border: 1px solid #edf1f5;
+  min-height: 540px;
+}
+
+.adm-docentes-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.adm-docentes-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  margin-top: 0.3rem;
+}
+
+.adm-docentes-sort {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  white-space: nowrap;
+}
+
+.adm-docentes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.adm-docente-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background-color: #f6f8fb;
+  border-radius: 10px;
+  padding: 1rem 1.15rem;
+}
+
+.adm-docente-left {
+  display: flex;
+  align-items: center;
+  gap: 0.95rem;
+  min-width: 0;
+}
+
+.adm-docente-thumb {
+  width: 56px;
+  height: 44px;
+  border-radius: 8px;
+  background-color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.adm-docente-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.adm-docente-name {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  line-height: 1.35;
+}
+
+.adm-docente-desc {
+  font-size: 0.76rem;
+  color: #6b7280;
+  line-height: 1.4;
+}
+
+.adm-docente-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex-shrink: 0;
+}
+
+/* Columna derecha: Plan de Estudios ICC vigente */
+.adm-plan-card {
+  padding: 1.65rem 1.5rem;
+  border-radius: 12px;
+  border: 1px solid #edf1f5;
+  min-height: 540px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.adm-plan-header {
+  display: flex;
+  flex-direction: column;
+}
+
+.adm-plan-subtitle {
+  font-size: 0.78rem;
+  color: #6b7280;
+  line-height: 1.45;
+  margin-top: 0.45rem;
+}
+
+.adm-plan-doc-box {
+  background-color: #f4f6f9;
+  border: 1px solid #e5e9f0;
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.adm-plan-doc-kicker {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.adm-plan-doc-name {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+}
+
+.adm-plan-doc-meta {
+  font-size: 0.74rem;
+  color: #6b7280;
+}
+
+@media (max-width: 1024px) {
+  .adm-docentes-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .adm-docente-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .adm-docente-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
