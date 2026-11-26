@@ -1,6 +1,7 @@
 import AccesosRapidos from "@/components/publico/AccesosRapidos";
 import EncabezadoPublico from "@/components/publico/EncabezadoPublico";
 import HeroPublico from "@/components/publico/HeroPublico";
+import QuienesSomos from "@/components/publico/QuienesSomos";
 import "@/styles/publico.css";
 
 export default function HomePublico() {
@@ -12,14 +13,7 @@ export default function HomePublico() {
 
         <AccesosRapidos />
 
-        <section className="pub-section" aria-labelledby="nosotros">
-          <div className="pub-container">
-            <p className="pub-eyebrow">Quiénes somos</p>
-            <h2 className="pub-section-title" id="nosotros">
-              Estudia con gente que también quiere construir.
-            </h2>
-          </div>
-        </section>
+        <QuienesSomos />
 
         <section className="pub-section pub-section--dark" aria-labelledby="cifras">
           <div className="pub-container">
