@@ -6,9 +6,11 @@ import {
   PERFILES_DOCENTES_ADMIN,
   PLAN_ESTUDIOS_VIGENTE,
   PerfilDocenteAdmin,
+  DocumentoPlanEstudios,
   TipoEstadoSeccion,
 } from "@/data/admin-base";
 import ModalDocente from "@/components/admin/ModalDocente";
+import ModalPlanEstudio from "@/components/admin/ModalPlanEstudio";
 
 const CLASE_BADGE_DOCENTE: Record<TipoEstadoSeccion, string> = {
   publicado: "adm-badge-publicado",
@@ -23,9 +25,13 @@ function ContenidoDocentes() {
   const [docentes, setDocentes] = useState<PerfilDocenteAdmin[]>(
     PERFILES_DOCENTES_ADMIN
   );
+  const [planEstudios, setPlanEstudios] = useState<DocumentoPlanEstudios>(
+    PLAN_ESTUDIOS_VIGENTE
+  );
   const [modalDocenteAbierto, setModalDocenteAbierto] = useState(false);
   const [docenteEditar, setDocenteEditar] =
     useState<PerfilDocenteAdmin | null>(null);
+  const [modalPlanAbierto, setModalPlanAbierto] = useState(false);
 
   useEffect(() => {
     if (searchParams.get("nuevo") === "1") {
@@ -134,18 +140,18 @@ function ContenidoDocentes() {
         </div>
 
         <div className="adm-plan-doc-box">
-          <span className="adm-plan-doc-kicker">
-            {PLAN_ESTUDIOS_VIGENTE.etiqueta}
-          </span>
+          <span className="adm-plan-doc-kicker">{planEstudios.etiqueta}</span>
           <strong className="adm-plan-doc-name">
-            {PLAN_ESTUDIOS_VIGENTE.nombreArchivo}
+            {planEstudios.nombreArchivo}
           </strong>
-          <span className="adm-plan-doc-meta">
-            {PLAN_ESTUDIOS_VIGENTE.detalle}
-          </span>
+          <span className="adm-plan-doc-meta">{planEstudios.detalle}</span>
         </div>
 
-        <button type="button" className="btn-amarillo adm-btn-full">
+        <button
+          type="button"
+          className="btn-amarillo adm-btn-full"
+          onClick={() => setModalPlanAbierto(true)}
+        >
           + Plan de Estudio
         </button>
       </aside>
@@ -155,6 +161,13 @@ function ContenidoDocentes() {
         docenteEditar={docenteEditar}
         onCerrar={() => setModalDocenteAbierto(false)}
         onGuardar={handleGuardarDocente}
+      />
+
+      <ModalPlanEstudio
+        abierto={modalPlanAbierto}
+        planActual={planEstudios}
+        onCerrar={() => setModalPlanAbierto(false)}
+        onGuardar={(nuevoPlan) => setPlanEstudios(nuevoPlan)}
       />
     </main>
   );
