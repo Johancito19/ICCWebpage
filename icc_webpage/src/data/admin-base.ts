@@ -96,3 +96,50 @@ export const SECCIONES_HOME_ADMIN: SeccionAdministrable[] = [
     hrefEditar: "/admin/areas",
   },
 ];
+
+/* ==========================================
+   DATOS INICIALES: EDITOR DE HERO Y CIFRAS (/admin/hero)
+   ========================================== */
+export interface DatosHeroEditor {
+  antetitulo: string;
+  subtitulo: string;
+  titular: string;
+  botonPrimario: string;
+  botonSecundario: string;
+}
+
+export interface DatosCifrasEditor {
+  estudiantes: string;
+  docentes: string;
+  laboratorios: string;
+  convenios: string;
+}
+
+export interface DatosFotografiaPortada {
+  nombreArchivo: string;
+  dimensiones: string;
+  textoAlternativo: string;
+}
+
+export const HERO_EDITOR_INICIAL: DatosHeroEditor = {
+  antetitulo: "Ingeniería en Ciencias de la Computación",
+  subtitulo: "Programa, conecta y construye en UNICAH.",
+  titular: "Construye el futuro desde Honduras",
+  botonPrimario: "Únete ahora",
+  botonSecundario: "Conoce ICC",
+};
+
+export const CIFRAS_EDITOR_INICIAL: DatosCifrasEditor = {
+  estudiantes: "420",
+  docentes: "24",
+  laboratorios: "06",
+  convenios: "14",
+};
+
+export const FOTO_PORTADA_INICIAL: DatosFotografiaPortada = {
+  nombreArchivo: "estudiantes-tecnologia-unicah.jpg",
+  dimensiones: "1440×800 px",
+  textoAlternativo:
+    "Estudiantes de Ingeniería en Ciencias de la Computación en laboratorio UNICAH",
+};
+
