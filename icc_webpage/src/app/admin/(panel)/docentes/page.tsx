@@ -1,8 +1,14 @@
+"use client";
+
+import { useState, useEffect, Suspense } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import {
   PERFILES_DOCENTES_ADMIN,
   PLAN_ESTUDIOS_VIGENTE,
+  PerfilDocenteAdmin,
   TipoEstadoSeccion,
 } from "@/data/admin-base";
+import ModalDocente from "@/components/admin/ModalDocente";
 
 const CLASE_BADGE_DOCENTE: Record<TipoEstadoSeccion, string> = {
   publicado: "adm-badge-publicado",
@@ -10,7 +16,47 @@ const CLASE_BADGE_DOCENTE: Record<TipoEstadoSeccion, string> = {
   neutral: "adm-badge-neutral",
 };
 
-export default function AdminDocentesPage() {
+function ContenidoDocentes() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const [docentes, setDocentes] = useState<PerfilDocenteAdmin[]>(
+    PERFILES_DOCENTES_ADMIN
+  );
+  const [modalDocenteAbierto, setModalDocenteAbierto] = useState(false);
+  const [docenteEditar, setDocenteEditar] =
+    useState<PerfilDocenteAdmin | null>(null);
+
+  useEffect(() => {
+    if (searchParams.get("nuevo") === "1") {
+      setDocenteEditar(null);
+      setModalDocenteAbierto(true);
+      router.replace("/admin/docentes");
+    }
+  }, [searchParams, router]);
+
+  const handleAbrirNuevoDocente = () => {
+    setDocenteEditar(null);
+    setModalDocenteAbierto(true);
+  };
+
+  const handleAbrirEditarDocente = (docente: PerfilDocenteAdmin) => {
+    setDocenteEditar(docente);
+    setModalDocenteAbierto(true);
+  };
+
+  const handleGuardarDocente = (docenteGuardado: PerfilDocenteAdmin) => {
+    setDocentes((prev) => {
+      const existe = prev.some((d) => d.id === docenteGuardado.id);
+      if (existe) {
+        return prev.map((d) =>
+          d.id === docenteGuardado.id ? docenteGuardado : d
+        );
+      }
+      return [...prev, docenteGuardado];
+    });
+  };
+
   return (
     <main className="adm-docentes-grid">
       {/* Columna izquierda: Perfiles docentes visibles en Home ICC */}
@@ -25,13 +71,22 @@ export default function AdminDocentesPage() {
             </h2>
           </div>
 
-          <span className="adm-docentes-sort">
-            Orden: Coordinación primero
-          </span>
+          <div className="adm-docentes-header-right">
+            <span className="adm-docentes-sort">
+              Orden: Coordinación primero
+            </span>
+            <button
+              type="button"
+              className="adm-btn-secondary adm-btn-edit"
+              onClick={handleAbrirNuevoDocente}
+            >
+              + Agregar docente
+            </button>
+          </div>
         </div>
 
         <div className="adm-docentes-list">
-          {PERFILES_DOCENTES_ADMIN.map((docente) => (
+          {docentes.map((docente) => (
             <article key={docente.id} className="adm-docente-row">
               <div className="adm-docente-left">
                 <div className="adm-docente-thumb" aria-hidden="true" />
@@ -55,6 +110,7 @@ export default function AdminDocentesPage() {
                 <button
                   type="button"
                   className="adm-btn-secondary adm-btn-edit"
+                  onClick={() => handleAbrirEditarDocente(docente)}
                 >
                   Editar
                 </button>
@@ -93,6 +149,21 @@ export default function AdminDocentesPage() {
           + Plan de Estudio
         </button>
       </aside>
+
+      <ModalDocente
+        abierto={modalDocenteAbierto}
+        docenteEditar={docenteEditar}
+        onCerrar={() => setModalDocenteAbierto(false)}
+        onGuardar={handleGuardarDocente}
+      />
     </main>
+  );
+}
+
+export default function AdminDocentesPage() {
+  return (
+    <Suspense fallback={null}>
+      <ContenidoDocentes />
+    </Suspense>
   );
 }

@@ -38,7 +38,7 @@ const CONFIG_POR_RUTA: Record<string, TopbarConfig> = {
     titulo: "Gestión de Docentes y Plan de Estudios",
     placeholderBusqueda: "Buscar sección o entrada...",
     textoBotonPrimario: "+ Agregar Docente",
-    hrefBotonPrimario: "/admin/docentes",
+    hrefBotonPrimario: "/admin/docentes?nuevo=1",
   },
   "/admin/areas": {
     breadcrumb: "ICC · UNICAH / ESTRUCTURA ACADÉMICA",

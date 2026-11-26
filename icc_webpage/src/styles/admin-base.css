@@ -1301,6 +1301,63 @@
   white-space: nowrap;
 }
 
+.adm-docentes-header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.adm-modal-docente-card {
+  max-width: 560px;
+}
+
+.adm-textarea {
+  resize: vertical;
+  min-height: 76px;
+}
+
+.adm-file-upload-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background-color: #f6f8fb;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+}
+
+.adm-file-upload-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.adm-file-upload-name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+}
+
+.adm-file-upload-hint {
+  font-size: 0.72rem;
+  color: #6b7280;
+}
+
+.adm-file-upload-btn {
+  padding: 0.45rem 1rem;
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+.adm-modal-footnotes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.74rem;
+  color: #6b7280;
+}
+
 .adm-docentes-list {
   display: flex;
   flex-direction: column;
