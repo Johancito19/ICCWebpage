@@ -19,27 +19,17 @@ export default function Sidebar({ onAbrirModalSalir }: SidebarProps) {
     <aside className="adm-sidebar">
       {/* Encabezado del Sidebar */}
       <div className="adm-sidebar-header">
-        <div className="adm-brand-emblem" aria-hidden="true">
-          <svg viewBox="0 0 36 36" fill="none" className="adm-emblem-svg">
-            <circle
-              cx="18"
-              cy="18"
-              r="16.5"
-              stroke="rgba(255,255,255,0.35)"
-              strokeWidth="1.5"
-            />
-            <path
-              d="M12 12.5H24V19.5C24 23.2 21.3 25.8 18 26.8C14.7 25.8 12 23.2 12 19.5V12.5Z"
-              fill="rgba(255,255,255,0.18)"
-              stroke="#ffffff"
-              strokeWidth="1.4"
-            />
-            <path
-              d="M18 13V26M12.5 17.5H23.5"
-              stroke="#ffffff"
-              strokeWidth="1.3"
-            />
-          </svg>
+        <div className="adm-logo-group">
+          <img
+            src="/img/shared/logo-icc.png"
+            alt="Logo Facultad de Ingeniería en Ciencias de la Computación"
+            className="adm-logo-img adm-logo-icc"
+          />
+          <img
+            src="/img/shared/logo-unicahFA.png"
+            alt="Escudo UNICAH"
+            className="adm-logo-img adm-logo-unicah"
+          />
         </div>
         <div className="adm-sidebar-brand">
           <span className="adm-sidebar-title">ICC / UNICAH</span>
