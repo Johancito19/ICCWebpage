@@ -1,1 +1,71 @@
-﻿/* Estilos Página Principal (Jonathan) - Prefijo: .pub- */
+.pub-home {
+  --pub-container-width: 75rem;
+  --pub-gutter: clamp(1.125rem, 4vw, 3rem);
+  --pub-section-spacing: clamp(2.5rem, 5.55vw, 5rem);
+  --pub-heading-color: var(--color-primary-dark);
+
+  line-height: 1.6;
+}
+
+.pub-container {
+  width: min(100% - 2 * var(--pub-gutter), var(--pub-container-width));
+  margin-inline: auto;
+}
+
+.pub-section {
+  padding-block: var(--pub-section-spacing);
+}
+
+.pub-section--surface {
+  background-color: var(--color-surface);
+}
+
+.pub-section--dark,
+.pub-voice {
+  --pub-heading-color: var(--color-white);
+
+  color: var(--color-white);
+}
+
+.pub-section--dark {
+  background-color: var(--color-primary-dark);
+}
+
+.pub-voice {
+  padding: clamp(1.5rem, 5.55vw, 5rem);
+  border-radius: calc(2 * var(--radius-card));
+  background-color: var(--color-primary);
+}
+
+.pub-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-block-end: 0.75rem;
+  color: var(--pub-heading-color);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.pub-eyebrow::before {
+  content: "";
+  flex: 0 0 1.5rem;
+  height: 2px;
+  background-color: var(--color-accent);
+}
+
+.pub-title,
+.pub-section-title {
+  color: var(--pub-heading-color);
+  line-height: 1.15;
+  overflow-wrap: break-word;
+}
+
+.pub-title {
+  font-size: clamp(2.5rem, 1.5rem + 4vw, 5rem);
+}
+
+.pub-section-title {
+  max-width: 42rem;
+  font-size: clamp(1.75rem, 2.5vw, 2.25rem);
+}
