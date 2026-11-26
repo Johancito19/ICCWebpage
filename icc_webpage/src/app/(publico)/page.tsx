@@ -1,5 +1,6 @@
 import AccesosRapidos from "@/components/publico/AccesosRapidos";
 import EncabezadoPublico from "@/components/publico/EncabezadoPublico";
+import GaleriaAreas from "@/components/publico/GaleriaAreas";
 import HeroPublico from "@/components/publico/HeroPublico";
 import PerspectivaIcc from "@/components/publico/PerspectivaIcc";
 import QuienesSomos from "@/components/publico/QuienesSomos";
@@ -18,14 +19,7 @@ export default function HomePublico() {
 
         <PerspectivaIcc />
 
-        <section className="pub-section" aria-labelledby="areas">
-          <div className="pub-container">
-            <p className="pub-eyebrow">Explora la computación</p>
-            <h2 className="pub-section-title" id="areas">
-              Tenemos espacios para pensar, con herramientas para crear.
-            </h2>
-          </div>
-        </section>
+        <GaleriaAreas />
 
         <section className="pub-section pub-section--surface" aria-labelledby="actualidad">
           <div className="pub-container">
