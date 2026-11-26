@@ -23,8 +23,8 @@ const CONFIG_POR_RUTA: Record<string, TopbarConfig> = {
     breadcrumb: "ICC · UNICAH / GESTIÓN DE PÁGINA / INICIO",
     titulo: "Editor de Hero, Quiénes Somos y Cifras Clave",
     placeholderBusqueda: "Buscar sección o entrada...",
-    textoBotonPrimario: "Publicar cambios",
-    hrefBotonPrimario: "/admin/hero",
+    textoBotonPrimario: "Resumen general",
+    hrefBotonPrimario: "/admin",
   },
   "/admin/noticias": {
     breadcrumb: "ICC · UNICAH / ACTUALIDAD ICC",

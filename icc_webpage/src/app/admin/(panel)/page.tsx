@@ -14,7 +14,7 @@ const CLASE_BADGE_ESTADO: Record<TipoEstadoSeccion, string> = {
 export default function AdminDashboardPage() {
   return (
     <main className="adm-dashboard">
-      {/* Encabezado de bienvenida y estado del sitio */}
+      {/* Encabezado de bienvenida */}
       <div className="adm-dash-header">
         <div className="adm-dash-welcome">
           <span className="etiqueta-seccion adm-dash-tag">
@@ -24,10 +24,6 @@ export default function AdminDashboardPage() {
             Bienvenido, Josué Daniel. Estado actual de Home ICC · UNICAH
           </h2>
         </div>
-
-        <span className="badge-estado adm-badge-online">
-          ● Sitio público en línea · v2.4
-        </span>
       </div>
 
       {/* 3 Tarjetas de métricas superiores */}

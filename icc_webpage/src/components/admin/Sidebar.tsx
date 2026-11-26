@@ -33,7 +33,7 @@ export default function Sidebar({ onAbrirModalSalir }: SidebarProps) {
         </div>
         <div className="adm-sidebar-brand">
           <span className="adm-sidebar-title">ICC / UNICAH</span>
-          <span className="adm-sidebar-subtitle">PANEL ADMIN CMS</span>
+          <span className="adm-sidebar-subtitle">PANEL ADMIN</span>
         </div>
       </div>
 
