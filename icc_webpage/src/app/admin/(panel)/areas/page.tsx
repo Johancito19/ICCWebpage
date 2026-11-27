@@ -146,6 +146,7 @@ export default function AdminAreasPage() {
         </button>
       </div>
 
+      {/* PANEL 1: EXPLORA LA COMPUTACIÓN */}
       {tabActiva === "areas" && (
         <section className="admm-panel">
           <div className="admm-panel-header">
@@ -228,26 +229,8 @@ export default function AdminAreasPage() {
         </section>
       )}
 
-      {tabActiva === "docentes" && (
-        <section className="admm-panel admm-placeholder-panel">
-          <h2>Docentes</h2>
-          <p>
-            El módulo de docentes se encuentra en la sección correspondiente.
-          </p>
-        </section>
-      )}
-
-      {tabActiva === "plan" && (
-        <section className="admm-panel admm-placeholder-panel">
-          <h2>Plan de Estudios</h2>
-          <p>
-            El módulo del Plan de Estudios se encuentra en la sección
-            correspondiente.
-          </p>
-        </section>
-      )}
-
-      {tabActiva === "aliados" && (
+      {/* PANEL 2: VINCULACIÓN EMPRESARIAL (visible debajo en Áreas y también en su pestaña) */}
+      {(tabActiva === "areas" || tabActiva === "aliados") && (
         <section className="admm-panel">
           <div className="admm-panel-header">
             <div>
@@ -308,6 +291,25 @@ export default function AdminAreasPage() {
               );
             })}
           </div>
+        </section>
+      )}
+
+      {tabActiva === "docentes" && (
+        <section className="admm-panel admm-placeholder-panel">
+          <h2>Docentes</h2>
+          <p>
+            El módulo de docentes se encuentra en la sección correspondiente.
+          </p>
+        </section>
+      )}
+
+      {tabActiva === "plan" && (
+        <section className="admm-panel admm-placeholder-panel">
+          <h2>Plan de Estudios</h2>
+          <p>
+            El módulo del Plan de Estudios se encuentra en la sección
+            correspondiente.
+          </p>
         </section>
       )}
 
