@@ -5,6 +5,7 @@ import GaleriaAreas from "@/components/publico/GaleriaAreas";
 import HeroPublico from "@/components/publico/HeroPublico";
 import PerspectivaIcc from "@/components/publico/PerspectivaIcc";
 import QuienesSomos from "@/components/publico/QuienesSomos";
+import VozEstudiantil from "@/components/publico/VozEstudiantil";
 import "@/styles/publico.css";
 
 export default function HomePublico() {
@@ -24,16 +25,7 @@ export default function HomePublico() {
 
         <ActualidadIcc />
 
-        <div className="pub-container pub-section">
-          <section className="pub-voice" aria-labelledby="voz-estudiantil">
-            <p className="pub-eyebrow">Voz Estudiantil</p>
-            <h2 className="pub-section-title" id="voz-estudiantil">
-              Tu perspectiva importa.
-              <br />
-              Tu sugerencia puede ser el comienzo.
-            </h2>
-          </section>
-        </div>
+        <VozEstudiantil />
 
         <section className="pub-section" aria-labelledby="vinculacion">
           <div className="pub-container">
