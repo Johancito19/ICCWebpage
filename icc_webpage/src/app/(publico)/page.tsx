@@ -1,4 +1,5 @@
 import AccesosRapidos from "@/components/publico/AccesosRapidos";
+import ActualidadIcc from "@/components/publico/ActualidadIcc";
 import EncabezadoPublico from "@/components/publico/EncabezadoPublico";
 import GaleriaAreas from "@/components/publico/GaleriaAreas";
 import HeroPublico from "@/components/publico/HeroPublico";
@@ -21,14 +22,7 @@ export default function HomePublico() {
 
         <GaleriaAreas />
 
-        <section className="pub-section pub-section--surface" aria-labelledby="actualidad">
-          <div className="pub-container">
-            <p className="pub-eyebrow">Actualidad ICC</p>
-            <h2 className="pub-section-title" id="actualidad">
-              Nuestra facultad demuestra estudiantes de ingeniosidad y servicio.
-            </h2>
-          </div>
-        </section>
+        <ActualidadIcc />
 
         <div className="pub-container pub-section">
           <section className="pub-voice" aria-labelledby="voz-estudiantil">
