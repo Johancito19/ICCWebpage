@@ -23,6 +23,28 @@ const ESTADO_INICIAL: NoticiaAdmin = {
   destacada: false,
 };
 
+function aFormatoInputDate(fecha: string): string {
+  if (!fecha) return "";
+  if (fecha.includes("/")) {
+    const [dia, mes, anio] = fecha.split("/");
+    if (dia && mes && anio) {
+      return `${anio}-${mes.padStart(2, "0")}-${dia.padStart(2, "0")}`;
+    }
+  }
+  return fecha;
+}
+
+function aFormatoVisible(fecha: string): string {
+  if (!fecha) return "";
+  if (fecha.includes("-")) {
+    const [anio, mes, dia] = fecha.split("-");
+    if (anio && mes && dia) {
+      return `${dia}/${mes}/${anio}`;
+    }
+  }
+  return fecha;
+}
+
 export default function ModalNoticia({
   abierto,
   noticiaEditar,
@@ -33,7 +55,14 @@ export default function ModalNoticia({
 
   useEffect(() => {
     if (!abierto) return;
-    setFormulario(noticiaEditar ?? ESTADO_INICIAL);
+    if (noticiaEditar) {
+      setFormulario({
+        ...noticiaEditar,
+        fechaPublicacion: aFormatoInputDate(noticiaEditar.fechaPublicacion),
+      });
+    } else {
+      setFormulario(ESTADO_INICIAL);
+    }
   }, [abierto, noticiaEditar]);
 
   if (!abierto) return null;
@@ -63,6 +92,7 @@ export default function ModalNoticia({
     const noticiaGuardada: NoticiaAdmin = {
       ...formulario,
       id: formulario.id || `noticia-${Date.now()}`,
+      fechaPublicacion: aFormatoVisible(formulario.fechaPublicacion),
       estado,
     };
 
@@ -76,8 +106,16 @@ export default function ModalNoticia({
   };
 
   return (
-    <div className="am-modal-backdrop" role="dialog" aria-modal="true">
-      <div className="am-modal am-modal-noticia">
+    <div
+      className="am-modal-backdrop"
+      role="dialog"
+      aria-modal="true"
+      onClick={onCerrar}
+    >
+      <div
+        className="am-modal am-modal-noticia"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="am-modal-header">
           <div>
             <span className="am-modal-kicker">ACTUALIDAD ICC</span>
@@ -160,11 +198,7 @@ export default function ModalNoticia({
                 <span>Fecha de publicación *</span>
                 <input
                   type="date"
-                  value={
-                    formulario.fechaPublicacion.includes("/")
-                      ? ""
-                      : formulario.fechaPublicacion
-                  }
+                  value={formulario.fechaPublicacion}
                   onChange={(e) =>
                     actualizarCampo("fechaPublicacion", e.target.value)
                   }

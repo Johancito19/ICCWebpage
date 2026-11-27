@@ -2,7 +2,7 @@
 
 import "@/styles/admin-modulos.css";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   AREAS_ADMIN_INICIALES,
   ALIADOS_ADMIN_INICIALES,
@@ -20,16 +20,48 @@ export default function AdminAreasPage() {
     ALIADOS_ADMIN_INICIALES
   );
   const [tabActiva, setTabActiva] = useState<TabAreas>("areas");
+  const [busqueda, setBusqueda] = useState("");
+  const [reordenando, setReordenando] = useState(false);
+
   const [modalAreaAbierto, setModalAreaAbierto] = useState(false);
   const [modalAliadoAbierto, setModalAliadoAbierto] = useState(false);
   const [areaEditar, setAreaEditar] = useState<AreaAdmin | null>(null);
+  const [slotSeleccionado, setSlotSeleccionado] = useState<number | null>(null);
+
+  useEffect(() => {
+    const handleTopbarClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.closest(".adm-topbar-btn-primary")) {
+        e.preventDefault();
+        setAreaEditar(null);
+        setModalAreaAbierto(true);
+      }
+    };
+
+    const handleTopbarSearch = (e: Event) => {
+      const target = e.target as HTMLInputElement;
+      if (target.classList.contains("adm-search-input")) {
+        setBusqueda(target.value);
+      }
+    };
+
+    document.addEventListener("click", handleTopbarClick);
+    document.addEventListener("input", handleTopbarSearch);
+
+    return () => {
+      document.removeEventListener("click", handleTopbarClick);
+      document.removeEventListener("input", handleTopbarSearch);
+    };
+  }, []);
 
   const posicionesOcupadas = aliados.map((aliado) => aliado.posicion);
 
   const posicionDisponible =
+    slotSeleccionado ??
     [1, 2, 3, 4, 5, 6].find(
       (posicion) => !posicionesOcupadas.includes(posicion)
-    ) ?? 6;
+    ) ??
+    6;
 
   const abrirEditarArea = (area: AreaAdmin) => {
     setAreaEditar(area);
@@ -39,20 +71,44 @@ export default function AdminAreasPage() {
   const guardarArea = (areaGuardada: AreaAdmin) => {
     setAreas((prev) => {
       const existe = prev.some((area) => area.id === areaGuardada.id);
-
       if (existe) {
         return prev.map((area) =>
           area.id === areaGuardada.id ? areaGuardada : area
         );
       }
-
       return [...prev, areaGuardada];
     });
   };
 
+  const moverArea = (indice: number, direccion: -1 | 1) => {
+    const nuevoIndice = indice + direccion;
+    if (nuevoIndice < 0 || nuevoIndice >= areas.length) return;
+
+    setAreas((prev) => {
+      const copia = [...prev];
+      const [movida] = copia.splice(indice, 1);
+      copia.splice(nuevoIndice, 0, movida);
+      return copia;
+    });
+  };
+
+  const abrirModalAliado = (posicion?: number) => {
+    setSlotSeleccionado(posicion ?? null);
+    setModalAliadoAbierto(true);
+  };
+
   const guardarAliado = (aliadoGuardado: AliadoAdmin) => {
     setAliados((prev) => [...prev, aliadoGuardado]);
+    setSlotSeleccionado(null);
   };
+
+  const quitarAliado = (id: string) => {
+    setAliados((prev) => prev.filter((item) => item.id !== id));
+  };
+
+  const areasFiltradas = areas.filter((area) =>
+    area.nombre.toLowerCase().includes(busqueda.toLowerCase())
+  );
 
   return (
     <main className="admm-areas-page">
@@ -97,25 +153,20 @@ export default function AdminAreasPage() {
               <span className="admm-section-label">
                 EXPLORA LA COMPUTACIÓN
               </span>
-
               <h2>Tarjetas publicadas en la galería de Home ICC · UNICAH</h2>
             </div>
 
             <button
               type="button"
               className="admm-btn-secondary"
-              onClick={() =>
-                alert(
-                  "La función de reordenar tarjetas se implementará después."
-                )
-              }
+              onClick={() => setReordenando((prev) => !prev)}
             >
-              Reordenar tarjetas
+              {reordenando ? "Listo" : "Reordenar tarjetas"}
             </button>
           </div>
 
           <div className="admm-area-grid">
-            {areas.map((area) => (
+            {areasFiltradas.map((area, index) => (
               <article
                 key={area.id}
                 className={`admm-area-card ${
@@ -141,16 +192,36 @@ export default function AdminAreasPage() {
                 </div>
 
                 <h3>{area.nombre}</h3>
-
                 <p className="admm-area-photo">Foto: {area.fotografia}</p>
 
-                <button
-                  type="button"
-                  className="admm-btn-secondary admm-btn-full"
-                  onClick={() => abrirEditarArea(area)}
-                >
-                  Editar área y foto
-                </button>
+                {reordenando ? (
+                  <div style={{ display: "flex", gap: "8px" }}>
+                    <button
+                      type="button"
+                      className="admm-btn-secondary admm-btn-full"
+                      disabled={index === 0}
+                      onClick={() => moverArea(index, -1)}
+                    >
+                      ← Subir
+                    </button>
+                    <button
+                      type="button"
+                      className="admm-btn-secondary admm-btn-full"
+                      disabled={index === areasFiltradas.length - 1}
+                      onClick={() => moverArea(index, 1)}
+                    >
+                      Bajar →
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    className="admm-btn-secondary admm-btn-full"
+                    onClick={() => abrirEditarArea(area)}
+                  >
+                    Editar área y foto
+                  </button>
+                )}
               </article>
             ))}
           </div>
@@ -160,7 +231,6 @@ export default function AdminAreasPage() {
       {tabActiva === "docentes" && (
         <section className="admm-panel admm-placeholder-panel">
           <h2>Docentes</h2>
-
           <p>
             El módulo de docentes se encuentra en la sección correspondiente.
           </p>
@@ -170,7 +240,6 @@ export default function AdminAreasPage() {
       {tabActiva === "plan" && (
         <section className="admm-panel admm-placeholder-panel">
           <h2>Plan de Estudios</h2>
-
           <p>
             El módulo del Plan de Estudios se encuentra en la sección
             correspondiente.
@@ -185,14 +254,13 @@ export default function AdminAreasPage() {
               <span className="admm-section-label">
                 VINCULACIÓN EMPRESARIAL
               </span>
-
               <h2>Logos aliados en Home y solicitudes recibidas</h2>
             </div>
 
             <button
               type="button"
               className="admm-btn-primary"
-              onClick={() => setModalAliadoAbierto(true)}
+              onClick={() => abrirModalAliado()}
               disabled={aliados.length >= 6}
             >
               + Subir logo aliado
@@ -215,18 +283,22 @@ export default function AdminAreasPage() {
                   {aliado ? (
                     <>
                       <strong>{aliado.nombre}</strong>
-
                       <span className="admm-status-published-text">
                         Publicado
                       </span>
+                      <button
+                        type="button"
+                        onClick={() => quitarAliado(aliado.id)}
+                      >
+                        Quitar
+                      </button>
                     </>
                   ) : (
                     <>
                       <span>Slot {posicion} (Vacío)</span>
-
                       <button
                         type="button"
-                        onClick={() => setModalAliadoAbierto(true)}
+                        onClick={() => abrirModalAliado(posicion)}
                       >
                         + Asignar logo
                       </button>
@@ -249,7 +321,10 @@ export default function AdminAreasPage() {
       <ModalAliado
         abierto={modalAliadoAbierto}
         posicionDisponible={posicionDisponible}
-        onCerrar={() => setModalAliadoAbierto(false)}
+        onCerrar={() => {
+          setModalAliadoAbierto(false);
+          setSlotSeleccionado(null);
+        }}
         onGuardar={guardarAliado}
       />
     </main>

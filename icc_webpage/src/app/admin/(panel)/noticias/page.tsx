@@ -1,8 +1,6 @@
 ﻿"use client";
 
-import "@/styles/admin-modulos.css";
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   NOTICIAS_ADMIN,
   EVENTOS_ADMIN,
@@ -20,12 +18,41 @@ export default function AdminNoticiasPage() {
   const [noticias, setNoticias] = useState<NoticiaAdmin[]>(NOTICIAS_ADMIN);
   const [eventos, setEventos] = useState<EventoAdmin[]>(EVENTOS_ADMIN);
   const [filtro, setFiltro] = useState<FiltroNoticias>("todas");
+  const [busqueda, setBusqueda] = useState("");
+
   const [modalNoticiaAbierto, setModalNoticiaAbierto] = useState(false);
   const [modalEventoAbierto, setModalEventoAbierto] = useState(false);
   const [modalFotoAbierto, setModalFotoAbierto] = useState(false);
+
   const [noticiaEditar, setNoticiaEditar] = useState<NoticiaAdmin | null>(null);
   const [eventoEditar, setEventoEditar] = useState<EventoAdmin | null>(null);
   const [noticiaFoto, setNoticiaFoto] = useState<NoticiaAdmin | null>(null);
+
+  useEffect(() => {
+    const handleTopbarClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.closest(".adm-topbar-btn-primary")) {
+        e.preventDefault();
+        setNoticiaEditar(null);
+        setModalNoticiaAbierto(true);
+      }
+    };
+
+    const handleTopbarSearch = (e: Event) => {
+      const target = e.target as HTMLInputElement;
+      if (target.classList.contains("adm-search-input")) {
+        setBusqueda(target.value);
+      }
+    };
+
+    document.addEventListener("click", handleTopbarClick);
+    document.addEventListener("input", handleTopbarSearch);
+
+    return () => {
+      document.removeEventListener("click", handleTopbarClick);
+      document.removeEventListener("input", handleTopbarSearch);
+    };
+  }, []);
 
   const abrirEditarNoticia = (noticia: NoticiaAdmin) => {
     setNoticiaEditar(noticia);
@@ -35,13 +62,11 @@ export default function AdminNoticiasPage() {
   const guardarNoticia = (noticiaGuardada: NoticiaAdmin) => {
     setNoticias((prev) => {
       const existe = prev.some((noticia) => noticia.id === noticiaGuardada.id);
-
       if (existe) {
         return prev.map((noticia) =>
           noticia.id === noticiaGuardada.id ? noticiaGuardada : noticia
         );
       }
-
       return [noticiaGuardada, ...prev];
     });
   };
@@ -57,10 +82,7 @@ export default function AdminNoticiasPage() {
     setNoticias((prev) =>
       prev.map((noticia) =>
         noticia.id === noticiaFoto.id
-          ? {
-              ...noticia,
-              fotografia: nombreArchivo,
-            }
+          ? { ...noticia, fotografia: nombreArchivo }
           : noticia
       )
     );
@@ -79,24 +101,39 @@ export default function AdminNoticiasPage() {
   const guardarEvento = (eventoGuardado: EventoAdmin) => {
     setEventos((prev) => {
       const existe = prev.some((evento) => evento.id === eventoGuardado.id);
-
       if (existe) {
         return prev.map((evento) =>
           evento.id === eventoGuardado.id ? eventoGuardado : evento
         );
       }
-
       return [...prev, eventoGuardado];
     });
   };
 
+  const termino = busqueda.toLowerCase();
+
   const noticiasFiltradas = noticias.filter((noticia) => {
+    const coincideBusqueda =
+      noticia.titulo.toLowerCase().includes(termino) ||
+      noticia.resumen.toLowerCase().includes(termino) ||
+      noticia.categoria.toLowerCase().includes(termino);
+
+    if (!coincideBusqueda) return false;
     if (filtro === "destacadas") return noticia.destacada;
     if (filtro === "eventos") return false;
     return true;
   });
 
-  const eventosFiltrados = filtro === "eventos" ? eventos : [];
+  const eventosFiltrados =
+    filtro === "eventos"
+      ? eventos.filter(
+          (evento) =>
+            evento.nombre.toLowerCase().includes(termino) ||
+            evento.tipo.toLowerCase().includes(termino) ||
+            evento.lugar.toLowerCase().includes(termino)
+        )
+      : [];
+
   const publicacionesVisibles = filtro !== "eventos" ? noticiasFiltradas : [];
 
   return (
@@ -106,9 +143,7 @@ export default function AdminNoticiasPage() {
           <div className="am-tabs">
             <button
               type="button"
-              className={`am-tab ${
-                filtro === "todas" ? "am-tab-active" : ""
-              }`}
+              className={`am-tab ${filtro === "todas" ? "am-tab-active" : ""}`}
               onClick={() => setFiltro("todas")}
             >
               Todas las noticias
@@ -151,7 +186,6 @@ export default function AdminNoticiasPage() {
             <div className="am-panel-header">
               <div>
                 <span className="am-section-label">ACTUALIDAD ICC</span>
-
                 <h2>
                   {filtro === "eventos"
                     ? "Eventos programados"
@@ -174,9 +208,7 @@ export default function AdminNoticiasPage() {
 
                     <div className="am-publicacion-info">
                       <h3>{noticia.titulo}</h3>
-
                       <p>{noticia.resumen}</p>
-
                       <span className="am-publicacion-categoria">
                         {noticia.categoria}
                       </span>
@@ -239,11 +271,9 @@ export default function AdminNoticiasPage() {
 
                     <div className="am-publicacion-info">
                       <h3>{evento.nombre}</h3>
-
                       <p>
                         {evento.tipo} · {evento.lugar}
                       </p>
-
                       <span className="am-publicacion-categoria">
                         {evento.modalidad}
                       </span>
@@ -282,7 +312,6 @@ export default function AdminNoticiasPage() {
               eventosFiltrados.length === 0 && (
                 <div className="am-empty-state">
                   <h3>No hay contenido disponible</h3>
-
                   <p>Agrega una noticia o evento para comenzar.</p>
                 </div>
               )}
@@ -292,7 +321,6 @@ export default function AdminNoticiasPage() {
             <div className="am-panel-header">
               <div>
                 <span className="am-section-label">AGENDA ACADÉMICA</span>
-
                 <h2>Próximos eventos en Home</h2>
               </div>
             </div>
@@ -320,7 +348,6 @@ export default function AdminNoticiasPage() {
                   </div>
 
                   <h3>{evento.nombre}</h3>
-
                   <p>
                     {evento.tipo} · {evento.lugar}
                   </p>

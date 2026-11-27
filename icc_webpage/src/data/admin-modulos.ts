@@ -1,4 +1,6 @@
-﻿// Noticias y eventos (Valeria)
+﻿//   DATOS FICTICIOS: MÓDULOS ADMIN (Valeria)
+
+// 1. NOTICIAS Y EVENTOS
 
 export type EstadoContenidoAdmin = "publicado" | "borrador";
 
@@ -129,7 +131,8 @@ export const EVENTOS_ADMIN: EventoAdmin[] = [
   },
 ];
 
-// Áreas y aliados (Valeria)
+// 2. ÁREAS, LABORATORIOS Y ALIADOS
+
 export type EstadoModulo = "Publicado" | "Borrador";
 
 export type TamanoTarjetaArea = "Principal (Col 2x)" | "Secundaria";
@@ -212,3 +215,52 @@ export const ALIADOS_ADMIN_INICIALES: AliadoAdmin[] = [
   },
 ];
 
+// 3. USUARIOS Y ACCESOS
+
+export type RolUsuarioAdmin = "Coordinador" | "Editor";
+
+export type EstadoUsuarioAdmin = "Activo" | "Pendiente" | "Suspendido";
+
+export interface UsuarioAdmin {
+  id: number;
+  nombre: string;
+  correo: string;
+  rol: RolUsuarioAdmin;
+  estado: EstadoUsuarioAdmin;
+  ultimoAcceso: string;
+}
+
+export const USUARIOS_ADMIN_INICIALES: UsuarioAdmin[] = [
+  {
+    id: 1,
+    nombre: "Josué Daniel Mata",
+    correo: "josue.mata@unicah.edu",
+    rol: "Coordinador",
+    estado: "Activo",
+    ultimoAcceso: "Hoy, 14:20",
+  },
+  {
+    id: 2,
+    nombre: "María José López",
+    correo: "maria.lopez@unicah.edu",
+    rol: "Editor",
+    estado: "Activo",
+    ultimoAcceso: "Hoy, 09:45",
+  },
+  {
+    id: 3,
+    nombre: "Carlos Mejía",
+    correo: "carlos.mejia@unicah.edu",
+    rol: "Editor",
+    estado: "Pendiente",
+    ultimoAcceso: "Sin acceso aún",
+  },
+  {
+    id: 4,
+    nombre: "Ana Rodríguez",
+    correo: "ana.rodriguez@unicah.edu",
+    rol: "Editor",
+    estado: "Suspendido",
+    ultimoAcceso: "15 nov 2026",
+  },
+];

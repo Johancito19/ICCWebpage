@@ -23,6 +23,28 @@ const ESTADO_INICIAL: EventoAdmin = {
   estado: "borrador",
 };
 
+function aFormatoInputDate(fecha: string): string {
+  if (!fecha) return "";
+  if (fecha.includes("/")) {
+    const [dia, mes, anio] = fecha.split("/");
+    if (dia && mes && anio) {
+      return `${anio}-${mes.padStart(2, "0")}-${dia.padStart(2, "0")}`;
+    }
+  }
+  return fecha;
+}
+
+function aFormatoVisible(fecha: string): string {
+  if (!fecha) return "";
+  if (fecha.includes("-")) {
+    const [anio, mes, dia] = fecha.split("-");
+    if (anio && mes && dia) {
+      return `${dia}/${mes}/${anio}`;
+    }
+  }
+  return fecha;
+}
+
 export default function ModalEvento({
   abierto,
   eventoEditar,
@@ -33,7 +55,14 @@ export default function ModalEvento({
 
   useEffect(() => {
     if (!abierto) return;
-    setFormulario(eventoEditar ?? ESTADO_INICIAL);
+    if (eventoEditar) {
+      setFormulario({
+        ...eventoEditar,
+        fecha: aFormatoInputDate(eventoEditar.fecha),
+      });
+    } else {
+      setFormulario(ESTADO_INICIAL);
+    }
   }, [abierto, eventoEditar]);
 
   if (!abierto) return null;
@@ -62,6 +91,7 @@ export default function ModalEvento({
     const eventoGuardado: EventoAdmin = {
       ...formulario,
       id: formulario.id || `evento-${Date.now()}`,
+      fecha: aFormatoVisible(formulario.fecha),
       estado,
     };
 
@@ -70,8 +100,16 @@ export default function ModalEvento({
   };
 
   return (
-    <div className="am-modal-backdrop" role="dialog" aria-modal="true">
-      <div className="am-modal am-modal-evento">
+    <div
+      className="am-modal-backdrop"
+      role="dialog"
+      aria-modal="true"
+      onClick={onCerrar}
+    >
+      <div
+        className="am-modal am-modal-evento"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="am-modal-header">
           <div>
             <span className="am-modal-kicker">AGENDA ACADÉMICA</span>
@@ -148,9 +186,7 @@ export default function ModalEvento({
                 <span>Fecha *</span>
                 <input
                   type="date"
-                  value={
-                    formulario.fecha.includes("/") ? "" : formulario.fecha
-                  }
+                  value={formulario.fecha}
                   onChange={(e) => actualizarCampo("fecha", e.target.value)}
                   required
                 />
