@@ -1,461 +1,392 @@
-﻿import "@/styles/admin-modulos.css";
+﻿"use client";
 
-const noticias = [
-  {
-    title: "Llevamos años formando profesionales especializados",
-    date: "18 Nov 2026",
-    category: "Actualidad ICC",
-    status: "Destacada",
-    description: "Noticia destacada · Foto: estudiantes presentando un proyecto",
-    featured: true,
-  },
-  {
-    title: "Aprender haciendo: nuevos talleres prácticos",
-    date: "15 Nov 2026",
-    category: "Académica",
-    status: "Publicado",
-    description: "Noticia breve · Foto: trabajo en equipo",
-  },
-  {
-    title: "Conversaciones sobre el futuro de la IA en Honduras",
-    date: "12 Nov 2026",
-    category: "Tecnología",
-    status: "Publicado",
-    description: "Noticia breve · Foto: encuentro académico",
-  },
-  {
-    title: "Convocatoria Hackathon ICC 2026",
-    date: "20 Nov 2026",
-    category: "Eventos",
-    status: "Borrador",
-    description: "Borrador pendiente de fotografía oficial",
-  },
-];
+import { useState } from "react";
+import {
+  NOTICIAS_ADMIN,
+  EVENTOS_ADMIN,
+  NoticiaAdmin,
+  EventoAdmin,
+} from "@/data/admin-modulos";
+import ModalNoticia from "@/components/admin-modulos/ModalNoticia";
+import ModalEvento from "@/components/admin-modulos/ModalEvento";
+import ModalReemplazarFoto from "@/components/admin-modulos/ModalReemplazarFoto";
+import "@/styles/admin-modulos.css";
 
-const eventos = [
-  {
-    date: "24 Nov 2026",
-    title: "Un primer paso en código",
-    type: "Taller",
-    place: "Laboratorio 1",
-    status: "Visible",
-  },
-  {
-    date: "02 Dic 2026",
-    title: "Hablemos de tecnología",
-    type: "Conversatorio",
-    place: "Auditorio",
-    status: "Visible",
-  },
-  {
-    date: "10 Dic 2026",
-    title: "Ideas en comunidad",
-    type: "Encuentro",
-    place: "Sala ICC",
-    status: "Borrador",
-  },
-];
+type FiltroNoticias = "todas" | "destacadas" | "eventos";
 
-function Icon({ name }: { name: string }) {
-  const paths: Record<string, string> = {
-    grid: "M4 4h6v6H4z M14 4h6v6h-6z M4 14h6v6H4z M14 14h6v6h-6z",
-    home: "M3 10.5 12 3l9 7.5 M5.5 9.5V21h13V9.5 M9 21v-7h6v7",
-    calendar: "M4 5h16v16H4z M8 3v4 M16 3v4 M4 10h16",
-    graduation: "M2 10 12 4l10 6-10 6z M6 12v5c3 3 9 3 12 0v-5 M22 10v6",
-    code: "M8 7 3 12l5 5 M16 7l5 5-5 5 M14 4l-4 16",
-    users: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8 M22 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75",
-    lock: "M5 11h14v10H5z M8 11V7a4 4 0 0 1 8 0v4",
-    search: "M11 19a8 8 0 1 1 0-16 8 8 0 0 1 0 16 M17 17l5 5",
-    plus: "M12 5v14 M5 12h14",
-    edit: "M12 20h9 M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4z",
-    image: "M4 4h16v16H4z M4 16l5-5 4 4 3-3 4 4 M9 8h.01",
-    close: "M6 6l12 12 M18 6 6 18",
+export default function AdminNoticiasPage() {
+  const [noticias, setNoticias] = useState<NoticiaAdmin[]>(NOTICIAS_ADMIN);
+  const [eventos, setEventos] = useState<EventoAdmin[]>(EVENTOS_ADMIN);
+  const [filtro, setFiltro] = useState<FiltroNoticias>("todas");
+  const [modalNoticiaAbierto, setModalNoticiaAbierto] = useState(false);
+  const [modalEventoAbierto, setModalEventoAbierto] = useState(false);
+  const [modalFotoAbierto, setModalFotoAbierto] = useState(false);
+  const [noticiaEditar, setNoticiaEditar] = useState<NoticiaAdmin | null>(null);
+  const [eventoEditar, setEventoEditar] = useState<EventoAdmin | null>(null);
+  const [noticiaFoto, setNoticiaFoto] = useState<NoticiaAdmin | null>(null);
+
+  const abrirNuevaNoticia = () => {
+    setNoticiaEditar(null);
+    setModalNoticiaAbierto(true);
   };
 
+  const abrirEditarNoticia = (noticia: NoticiaAdmin) => {
+    setNoticiaEditar(noticia);
+    setModalNoticiaAbierto(true);
+  };
+
+  const guardarNoticia = (noticiaGuardada: NoticiaAdmin) => {
+    setNoticias((prev) => {
+      const existe = prev.some((noticia) => noticia.id === noticiaGuardada.id);
+
+      if (existe) {
+        return prev.map((noticia) =>
+          noticia.id === noticiaGuardada.id ? noticiaGuardada : noticia
+        );
+      }
+
+      return [noticiaGuardada, ...prev];
+    });
+  };
+
+  const abrirReemplazarFoto = (noticia: NoticiaAdmin) => {
+    setNoticiaFoto(noticia);
+    setModalFotoAbierto(true);
+  };
+
+  const guardarFoto = (nombreArchivo: string) => {
+    if (!noticiaFoto) return;
+
+    setNoticias((prev) =>
+      prev.map((noticia) =>
+        noticia.id === noticiaFoto.id
+          ? {
+              ...noticia,
+              fotografia: nombreArchivo,
+            }
+          : noticia
+      )
+    );
+  };
+
+  const abrirNuevoEvento = () => {
+    setEventoEditar(null);
+    setModalEventoAbierto(true);
+  };
+
+  const abrirEditarEvento = (evento: EventoAdmin) => {
+    setEventoEditar(evento);
+    setModalEventoAbierto(true);
+  };
+
+  const guardarEvento = (eventoGuardado: EventoAdmin) => {
+    setEventos((prev) => {
+      const existe = prev.some((evento) => evento.id === eventoGuardado.id);
+
+      if (existe) {
+        return prev.map((evento) =>
+          evento.id === eventoGuardado.id ? eventoGuardado : evento
+        );
+      }
+
+      return [...prev, eventoGuardado];
+    });
+  };
+
+  const noticiasFiltradas = noticias.filter((noticia) => {
+    if (filtro === "destacadas") return noticia.destacada;
+    if (filtro === "eventos") return false;
+    return true;
+  });
+
+  const eventosFiltrados = filtro === "eventos" ? eventos : [];
+  const publicacionesVisibles = filtro !== "eventos" ? noticiasFiltradas : [];
+
   return (
-    <svg viewBox="0 0 24 24" className="adm-news-icon" aria-hidden="true">
-      <path d={paths[name] || paths.grid} />
-    </svg>
-  );
-}
+    <>
+      <main className="am-noticias-page">
+        <div className="am-page-header">
+          <div>
+            <span className="am-page-kicker">
+              ICC · UNICAH / ACTUALIDAD ICC
+            </span>
+            <h1>Gestión de Noticias y Próximos Eventos</h1>
+          </div>
 
-export default function NoticiasPage() {
-  return (
-    <main className="adm-news-page">
-      <header className="adm-news-header">
-        <div className="adm-news-heading-copy">
-          <div className="adm-news-breadcrumb">ICC · UNICAH / ACTUALIDAD ICC</div>
-          <h1>Gestión de Noticias y Próximos Eventos</h1>
+          <div className="am-page-header-actions">
+            <button type="button" className="am-btn-secondary">
+              Ver página pública
+            </button>
+
+            <button
+              type="button"
+              className="am-btn-primary"
+              onClick={abrirNuevaNoticia}
+            >
+              + Nueva noticia
+            </button>
+          </div>
         </div>
-        <div className="adm-news-header-actions">
-          <div className="adm-news-search">
-            <Icon name="search" />
-            <span>Buscar sección o entrada...</span>
-          </div>
-          <button className="adm-news-btn adm-news-btn-outline" type="button">
-            Ver página pública
-          </button>
-          <button className="adm-news-btn adm-news-btn-yellow" type="button">
-            <Icon name="plus" /> Nueva noticia
-          </button>
-        </div>
-      </header>
 
-      <div className="adm-news-toolbar">
-        <div className="adm-news-tabs">
-          <button className="adm-news-tab adm-news-tab-active" type="button">
-            Todas las noticias <span>12</span>
-          </button>
-          <button className="adm-news-tab" type="button">
-            Noticia destacada
-          </button>
-          <button className="adm-news-tab" type="button">
-            Próximos eventos <span>6</span>
-          </button>
-        </div>
-        <button className="adm-news-btn adm-news-btn-outline" type="button">
-          <Icon name="plus" /> Agendar evento
-        </button>
-      </div>
+        <div className="am-toolbar">
+          <div className="am-tabs">
+            <button
+              type="button"
+              className={`am-tab ${
+                filtro === "todas" ? "am-tab-active" : ""
+              }`}
+              onClick={() => setFiltro("todas")}
+            >
+              Todas las noticias
+              <span>{noticias.length}</span>
+            </button>
 
-      <div className="adm-news-content-grid">
-        <section className="adm-news-panel adm-news-publications">
-          <div className="adm-news-panel-heading">
-            <div>
-              <span className="adm-news-section-label">
-                <i /> ACTUALIDAD ICC
-              </span>
-              <h2>Publicaciones visibles en Home ICC</h2>
-            </div>
-            <span className="adm-news-sort">Orden: Destacada primero</span>
+            <button
+              type="button"
+              className={`am-tab ${
+                filtro === "destacadas" ? "am-tab-active" : ""
+              }`}
+              onClick={() => setFiltro("destacadas")}
+            >
+              Noticia destacada
+            </button>
+
+            <button
+              type="button"
+              className={`am-tab ${
+                filtro === "eventos" ? "am-tab-active" : ""
+              }`}
+              onClick={() => setFiltro("eventos")}
+            >
+              Próximos eventos
+              <span>{eventos.length}</span>
+            </button>
           </div>
 
-          <div className="adm-news-list">
-            {noticias.map((news, index) => (
-              <article className="adm-news-row" key={index}>
-                <div className="adm-news-thumb" aria-hidden="true">
-                  <Icon name="image" />
-                </div>
-                <div className="adm-news-row-main">
-                  <h3>{news.title}</h3>
-                  <p>{news.description}</p>
-                </div>
-                <span className="adm-news-date">{news.date}</span>
-                <span
-                  className={`adm-news-status ${
-                    news.status === "Destacada"
-                      ? "is-featured"
-                      : news.status === "Borrador"
-                      ? "is-draft"
-                      : "is-published"
-                  }`}
-                >
-                  <i /> {news.status}
-                </span>
-                <button className="adm-news-edit-btn" type="button">
-                  <Icon name="edit" /> Editar
-                </button>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <aside className="adm-news-panel adm-news-events-panel">
-          <div className="adm-news-panel-heading">
-            <div>
-              <span className="adm-news-section-label">
-                <i /> AGENDA ACADÉMICA
-              </span>
-              <h2>Próximos eventos en Home</h2>
-            </div>
-          </div>
-          <p className="adm-news-events-intro">
-            Se muestran los 3 eventos más próximos en la columna derecha de Actualidad ICC.
-          </p>
-          <div className="adm-news-event-list">
-            {eventos.map((event, index) => (
-              <article className="adm-news-event-card" key={index}>
-                <div className="adm-news-event-topline">
-                  <span className="adm-news-event-date">{event.date}</span>
-                  <span
-                    className={`adm-news-status ${
-                      event.status === "Borrador" ? "is-draft" : "is-published"
-                    }`}
-                  >
-                    <i /> {event.status}
-                  </span>
-                </div>
-                <h3>{event.title}</h3>
-                <p>
-                  {event.type} · {event.place}
-                </p>
-              </article>
-            ))}
-          </div>
           <button
-            className="adm-news-btn adm-news-btn-yellow adm-news-add-event"
             type="button"
+            className="am-btn-secondary"
+            onClick={abrirNuevoEvento}
           >
-            <Icon name="plus" /> Agregar nuevo evento
+            + Agendar evento
           </button>
-        </aside>
-      </div>
-
-      <div className="adm-news-modal-preview" aria-hidden="true">
-        <div className="adm-news-modal">
-          <div className="adm-news-modal-header">
-            <div>
-              <span className="adm-news-section-label">ACTUALIDAD ICC</span>
-              <h2>Nueva noticia</h2>
-              <p>Comparte las novedades de la carrera en Home ICC · UNICAH.</p>
-            </div>
-            <button className="adm-news-modal-close" type="button">
-              <Icon name="close" />
-            </button>
-          </div>
-
-          <div className="adm-news-modal-body">
-            <label>
-              Título de la noticia <b>*</b>
-              <div className="adm-news-input-placeholder">
-                Escribe el título de la noticia
-              </div>
-            </label>
-            <label>
-              Resumen <b>*</b>
-              <div className="adm-news-input-placeholder adm-news-placeholder-tall">
-                Escribe una breve introducción para la tarjeta de Home.
-              </div>
-            </label>
-            <label>
-              Contenido de la noticia <b>*</b>
-              <div className="adm-news-input-placeholder adm-news-placeholder-tall">
-                Escribe aquí el contenido completo de la noticia...
-              </div>
-            </label>
-            <div className="adm-news-form-grid">
-              <label>
-                Categoría <b>*</b>
-                <div className="adm-news-input-placeholder">
-                  Seleccionar categoría
-                </div>
-              </label>
-              <label>
-                Fecha de publicación <b>*</b>
-                <div className="adm-news-input-placeholder">dd/mm/aaaa</div>
-              </label>
-            </div>
-            <label>
-              Fotografía de portada <b>*</b>
-              <div className="adm-news-upload-box">
-                <span>
-                  Ningún archivo seleccionado
-                  <small>JPG o PNG · Máximo 5 MB</small>
-                </span>
-                <button
-                  className="adm-news-btn adm-news-btn-outline"
-                  type="button"
-                >
-                  Subir fotografía
-                </button>
-              </div>
-            </label>
-            <div className="adm-news-form-grid">
-              <label>
-                Estado
-                <div className="adm-news-input-placeholder">Borrador</div>
-              </label>
-              <label>
-                Destacar en Home
-                <div className="adm-news-input-placeholder">No</div>
-              </label>
-            </div>
-            <small className="adm-news-required-note">* Campos obligatorios</small>
-          </div>
-
-          <div className="adm-news-modal-footer">
-            <button className="adm-news-btn adm-news-btn-outline" type="button">
-              Cancelar
-            </button>
-            <button className="adm-news-btn adm-news-btn-outline" type="button">
-              Guardar borrador
-            </button>
-            <button className="adm-news-btn adm-news-btn-yellow" type="button">
-              Publicar noticia
-            </button>
-          </div>
         </div>
-      </div>
 
-      <div
-        className="adm-news-modal-preview adm-news-modal-edit-preview"
-        aria-hidden="true"
-      >
-        <div className="adm-news-modal">
-          <div className="adm-news-modal-header">
-            <div>
-              <span className="adm-news-section-label">ACTUALIDAD</span>
-              <h2>Editar noticia</h2>
-              <p>Actualiza el contenido y la publicación de esta noticia.</p>
-            </div>
-            <button className="adm-news-modal-close" type="button">
-              <Icon name="close" />
-            </button>
-          </div>
+        <div className="am-content-grid">
+          <section className="am-panel am-publicaciones-panel">
+            <div className="am-panel-header">
+              <div>
+                <span className="am-section-label">ACTUALIDAD ICC</span>
+                <h2>
+                  {filtro === "eventos"
+                    ? "Eventos programados"
+                    : filtro === "destacadas"
+                    ? "Noticias destacadas en Home"
+                    : "Publicaciones visibles en Home ICC"}
+                </h2>
+              </div>
 
-          <div className="adm-news-modal-body">
-            <label>
-              Título de la noticia <b>*</b>
-              <div className="adm-news-input-placeholder">
-                Llevamos años formando profesionales especializados
-              </div>
-            </label>
-            <label>
-              Resumen <b>*</b>
-              <div className="adm-news-input-placeholder adm-news-placeholder-tall">
-                Conoce la formación de profesionales en Ingeniería en Ciencias de la Computación.
-              </div>
-            </label>
-            <label>
-              Contenido de la noticia <b>*</b>
-              <div className="adm-news-input-placeholder adm-news-placeholder-tall">
-                La carrera de Ingeniería en Ciencias de la Computación presenta su propuesta de formación profesional.
-              </div>
-            </label>
-            <div className="adm-news-form-grid">
-              <label>
-                Categoría <b>*</b>
-                <div className="adm-news-input-placeholder">Institucional</div>
-              </label>
-              <label>
-                Fecha de publicación <b>*</b>
-                <div className="adm-news-input-placeholder">18/11/2026</div>
-              </label>
+              <span className="am-order-label">Orden: Destacada primero</span>
             </div>
-            <label>
-              Fotografía de portada <b>*</b>
-              <div className="adm-news-upload-box">
-                <span>
-                  Fotografía actual de la noticia
-                  <small>Estudiantes presentando un proyecto</small>
-                </span>
-                <button
-                  className="adm-news-btn adm-news-btn-outline"
-                  type="button"
-                >
-                  Reemplazar foto
-                </button>
+
+            {publicacionesVisibles.length > 0 && (
+              <div className="am-publicaciones-list">
+                {publicacionesVisibles.map((noticia) => (
+                  <article key={noticia.id} className="am-publicacion-row">
+                    <div className="am-publicacion-thumb">
+                      <span>{noticia.fotografia ? "IMG" : "ICC"}</span>
+                    </div>
+
+                    <div className="am-publicacion-info">
+                      <h3>{noticia.titulo}</h3>
+                      <p>{noticia.resumen}</p>
+                      <span className="am-publicacion-categoria">
+                        {noticia.categoria}
+                      </span>
+                    </div>
+
+                    <div className="am-publicacion-meta">
+                      <span className="am-date">
+                        {noticia.fechaPublicacion}
+                      </span>
+
+                      <span
+                        className={`am-status ${
+                          noticia.estado === "publicado"
+                            ? "am-status-published"
+                            : "am-status-draft"
+                        }`}
+                      >
+                        ●{" "}
+                        {noticia.destacada && noticia.estado === "publicado"
+                          ? "Destacada"
+                          : noticia.estado === "publicado"
+                          ? "Publicado"
+                          : "Borrador"}
+                      </span>
+                    </div>
+
+                    <div className="am-publicacion-actions">
+                      <button
+                        type="button"
+                        className="am-btn-secondary am-btn-small"
+                        onClick={() => abrirEditarNoticia(noticia)}
+                      >
+                        Editar
+                      </button>
+
+                      <button
+                        type="button"
+                        className="am-btn-text"
+                        onClick={() => abrirReemplazarFoto(noticia)}
+                      >
+                        Foto
+                      </button>
+                    </div>
+                  </article>
+                ))}
               </div>
-            </label>
-            <div className="adm-news-form-grid">
-              <label>
-                Estado
-                <div className="adm-news-input-placeholder">Publicado</div>
-              </label>
-              <label>
-                Destacar en Home
-                <div className="adm-news-input-placeholder">
-                  Sí · Noticia destacada
+            )}
+
+            {eventosFiltrados.length > 0 && (
+              <div className="am-publicaciones-list">
+                {eventosFiltrados.map((evento) => (
+                  <article
+                    key={evento.id}
+                    className="am-publicacion-row am-evento-row"
+                  >
+                    <div className="am-evento-date-box">
+                      <span>{evento.fecha}</span>
+                      <strong>{evento.hora}</strong>
+                    </div>
+
+                    <div className="am-publicacion-info">
+                      <h3>{evento.nombre}</h3>
+                      <p>
+                        {evento.tipo} · {evento.lugar}
+                      </p>
+                      <span className="am-publicacion-categoria">
+                        {evento.modalidad}
+                      </span>
+                    </div>
+
+                    <div className="am-publicacion-meta">
+                      <span
+                        className={`am-status ${
+                          evento.estado === "publicado"
+                            ? "am-status-published"
+                            : "am-status-draft"
+                        }`}
+                      >
+                        ●{" "}
+                        {evento.estado === "publicado"
+                          ? "Publicado"
+                          : "Borrador"}
+                      </span>
+                    </div>
+
+                    <div className="am-publicacion-actions">
+                      <button
+                        type="button"
+                        className="am-btn-secondary am-btn-small"
+                        onClick={() => abrirEditarEvento(evento)}
+                      >
+                        Editar
+                      </button>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            )}
+
+            {publicacionesVisibles.length === 0 &&
+              eventosFiltrados.length === 0 && (
+                <div className="am-empty-state">
+                  <h3>No hay contenido disponible</h3>
+                  <p>Agrega una noticia o evento para comenzar.</p>
                 </div>
-              </label>
-            </div>
-            <small className="adm-news-required-note">* Campos obligatorios</small>
-          </div>
+              )}
+          </section>
 
-          <div className="adm-news-modal-footer">
-            <button className="adm-news-btn adm-news-btn-outline" type="button">
-              Cancelar
+          <aside className="am-panel am-agenda-panel">
+            <div className="am-panel-header">
+              <div>
+                <span className="am-section-label">AGENDA ACADÉMICA</span>
+                <h2>Próximos eventos en Home</h2>
+              </div>
+            </div>
+
+            <p className="am-agenda-description">
+              Se muestran los 3 eventos más próximos en la columna derecha de
+              Actualidad ICC.
+            </p>
+
+            <div className="am-agenda-list">
+              {eventos.slice(0, 3).map((evento) => (
+                <article key={evento.id} className="am-agenda-card">
+                  <div className="am-agenda-card-top">
+                    <span>{evento.fecha}</span>
+
+                    <span
+                      className={`am-status ${
+                        evento.estado === "publicado"
+                          ? "am-status-published"
+                          : "am-status-draft"
+                      }`}
+                    >
+                      ● {evento.estado === "publicado" ? "Visible" : "Borrador"}
+                    </span>
+                  </div>
+
+                  <h3>{evento.nombre}</h3>
+
+                  <p>
+                    {evento.tipo} · {evento.lugar}
+                  </p>
+
+                  <button
+                    type="button"
+                    className="am-agenda-edit"
+                    onClick={() => abrirEditarEvento(evento)}
+                  >
+                    Editar evento
+                  </button>
+                </article>
+              ))}
+            </div>
+
+            <button
+              type="button"
+              className="am-btn-primary am-btn-full"
+              onClick={abrirNuevoEvento}
+            >
+              + Agregar nuevo evento
             </button>
-            <button className="adm-news-btn adm-news-btn-yellow" type="button">
-              Guardar cambios
-            </button>
-          </div>
+          </aside>
         </div>
-      </div>
+      </main>
 
-      <div
-        className="adm-news-modal-preview adm-news-event-modal-preview"
-        aria-hidden="true"
-      >
-        <div className="adm-news-modal adm-news-event-modal">
-          <div className="adm-news-modal-header">
-            <div>
-              <span className="adm-news-section-label">AGENDA ACADÉMICA</span>
-              <h2>Agregar nuevo evento</h2>
-              <p>Crea un evento para la agenda de Home ICC · UNICAH.</p>
-            </div>
-            <button className="adm-news-modal-close" type="button">
-              <Icon name="close" />
-            </button>
-          </div>
+      <ModalNoticia
+        abierto={modalNoticiaAbierto}
+        noticiaEditar={noticiaEditar}
+        onCerrar={() => setModalNoticiaAbierto(false)}
+        onGuardar={guardarNoticia}
+      />
 
-          <div className="adm-news-modal-body">
-            <label>
-              Nombre del evento <b>*</b>
-              <div className="adm-news-input-placeholder">
-                Escribe el nombre del evento
-              </div>
-            </label>
-            <div className="adm-news-form-grid">
-              <label>
-                Tipo de evento <b>*</b>
-                <div className="adm-news-input-placeholder">
-                  Taller / Charla / Encuentro
-                </div>
-              </label>
-              <label>
-                Modalidad <b>*</b>
-                <div className="adm-news-input-placeholder">Presencial</div>
-              </label>
-            </div>
-            <div className="adm-news-form-grid">
-              <label>
-                Fecha <b>*</b>
-                <div className="adm-news-input-placeholder">dd/mm/aaaa</div>
-              </label>
-              <label>
-                Hora <b>*</b>
-                <div className="adm-news-input-placeholder">hh:mm</div>
-              </label>
-            </div>
-            <label>
-              Lugar o enlace <b>*</b>
-              <div className="adm-news-input-placeholder">
-                Ej. Laboratorio 1 · Campus UNICAH
-              </div>
-            </label>
-            <label>
-              Descripción <b>*</b>
-              <div className="adm-news-input-placeholder adm-news-placeholder-tall">
-                Describe el evento y a quién está dirigido.
-              </div>
-            </label>
-            <label>
-              Enlace de inscripción (opcional)
-              <div className="adm-news-input-placeholder">https://</div>
-            </label>
-            <div className="adm-news-event-note">
-              <strong>Visible en la agenda al publicar</strong>
-              <p>
-                Home muestra los 3 eventos más próximos. También puedes guardar este evento como borrador.
-              </p>
-            </div>
-            <small className="adm-news-required-note">* Campos obligatorios</small>
-          </div>
+      <ModalEvento
+        abierto={modalEventoAbierto}
+        eventoEditar={eventoEditar}
+        onCerrar={() => setModalEventoAbierto(false)}
+        onGuardar={guardarEvento}
+      />
 
-          <div className="adm-news-modal-footer">
-            <button className="adm-news-btn adm-news-btn-outline" type="button">
-              Cancelar
-            </button>
-            <button className="adm-news-btn adm-news-btn-outline" type="button">
-              Guardar borrador
-            </button>
-            <button className="adm-news-btn adm-news-btn-yellow" type="button">
-              Publicar evento
-            </button>
-          </div>
-        </div>
-      </div>
-    </main>
+      <ModalReemplazarFoto
+        abierto={modalFotoAbierto}
+        nombreNoticia={noticiaFoto?.titulo || ""}
+        fotografiaActual={noticiaFoto?.fotografia || ""}
+        onCerrar={() => setModalFotoAbierto(false)}
+        onGuardar={guardarFoto}
+      />
+    </>
   );
 }
