@@ -30,9 +30,13 @@
   flex: 0 0 auto;
 }
 
-.pub-brand img {
+.pub-brand-logo {
   display: block;
+  width: clamp(8.5rem, 12vw + 0.82rem, 10.5rem);
+  height: auto;
+  aspect-ratio: 5 / 2;
   border-radius: 0;
+  object-fit: cover;
 }
 
 .pub-navigation-list {
@@ -184,8 +188,8 @@ html:has(.pub-mobile-menu[open]) {
 }
 
 .pub-mobile-menu-logo {
-  display: block;
-  border-radius: 0;
+  border-radius: var(--radius-card);
+  background-color: var(--color-white);
 }
 
 .pub-mobile-menu-nav {
@@ -240,9 +244,8 @@ a.pub-mobile-menu-link:hover {
     min-height: 5rem;
   }
 
-  .pub-brand img {
-    width: 6.5rem;
-    height: auto;
+  .pub-brand-logo {
+    width: 9.5rem;
   }
 
   .pub-navigation {
@@ -257,6 +260,10 @@ a.pub-mobile-menu-link:hover {
 @media (width < 40rem) {
   .pub-header-row {
     min-height: 4rem;
+  }
+
+  .pub-brand-logo {
+    width: 9rem;
   }
 
   .pub-admissions {

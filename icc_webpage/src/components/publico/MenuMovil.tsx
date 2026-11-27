@@ -60,11 +60,11 @@ export default function MenuMovil({ navigation }: MenuMovilProps) {
         <div className="pub-container pub-mobile-menu-content">
           <div className="pub-mobile-menu-head">
             <Image
-              className="pub-mobile-menu-logo"
-              src="/img/publico/logo-icc-menu.png"
-              alt="ICC · UNICAH"
-              width={104}
-              height={46}
+              className="pub-brand-logo pub-mobile-menu-logo"
+              src="/img/shared/logo-unicah%20completo.png"
+              alt="Universidad Católica de Honduras"
+              width={548}
+              height={315}
               loading="eager"
               unoptimized
             />

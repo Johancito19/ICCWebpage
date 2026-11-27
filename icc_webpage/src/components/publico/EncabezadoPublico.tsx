@@ -17,22 +17,15 @@ export default function EncabezadoPublico() {
     <header className="pub-header">
       <div className="pub-container pub-header-row">
         <Link className="pub-brand" href="/">
-          <picture>
-            <source
-              media="(width < 64rem)"
-              srcSet="/img/publico/logo-icc-compacto.png"
-              width={104}
-              height={46}
-            />
-            <Image
-              src="/img/publico/logo-icc.png"
-              alt="ICC · UNICAH"
-              width={136}
-              height={60}
-              loading="eager"
-              unoptimized
-            />
-          </picture>
+          <Image
+            className="pub-brand-logo"
+            src="/img/shared/logo-unicah%20completo.png"
+            alt="Universidad Católica de Honduras"
+            width={548}
+            height={315}
+            loading="eager"
+            unoptimized
+          />
         </Link>
 
         <nav className="pub-navigation" aria-label="Navegación principal">
