@@ -1,4 +1,6 @@
-﻿export type EstadoContenidoAdmin = "publicado" | "borrador";
+﻿// Noticias y eventos (Valeria)
+
+export type EstadoContenidoAdmin = "publicado" | "borrador";
 
 export interface NoticiaAdmin {
   id: string;
@@ -126,3 +128,87 @@ export const EVENTOS_ADMIN: EventoAdmin[] = [
     estado: "borrador",
   },
 ];
+
+// Áreas y aliados (Valeria)
+export type EstadoModulo = "Publicado" | "Borrador";
+
+export type TamanoTarjetaArea = "Principal (Col 2x)" | "Secundaria";
+
+export interface AreaAdmin {
+  id: string;
+  nombre: string;
+  descripcion: string;
+  tamano: TamanoTarjetaArea;
+  estado: EstadoModulo;
+  fotografia: string;
+  textoAlternativo: string;
+}
+
+export interface AliadoAdmin {
+  id: string;
+  nombre: string;
+  logo: string;
+  posicion: number;
+  estado: EstadoModulo;
+}
+
+export const AREAS_ADMIN_INICIALES: AreaAdmin[] = [
+  {
+    id: "area-1",
+    nombre: "Desarrollo de software",
+    descripcion:
+      "Espacio para la programación colaborativa y el desarrollo de proyectos de software.",
+    tamano: "Principal (Col 2x)",
+    estado: "Publicado",
+    fotografia: "Programación colaborativa",
+    textoAlternativo:
+      "Estudiantes trabajando en programación colaborativa",
+  },
+  {
+    id: "area-2",
+    nombre: "Análisis de datos",
+    descripcion:
+      "Área dedicada al análisis, procesamiento e interpretación de datos.",
+    tamano: "Secundaria",
+    estado: "Publicado",
+    fotografia: "Análisis de datos en pantalla",
+    textoAlternativo:
+      "Estudiantes analizando datos en una pantalla",
+  },
+  {
+    id: "area-3",
+    nombre: "Redes y Telecomunicaciones",
+    descripcion:
+      "Área de formación práctica en redes, telecomunicaciones e infraestructura tecnológica.",
+    tamano: "Secundaria",
+    estado: "Publicado",
+    fotografia: "Equipos de redes",
+    textoAlternativo:
+      "Equipos utilizados para prácticas de redes",
+  },
+];
+
+export const ALIADOS_ADMIN_INICIALES: AliadoAdmin[] = [
+  {
+    id: "aliado-1",
+    nombre: "Grupo Tech HN",
+    logo: "",
+    posicion: 1,
+    estado: "Publicado",
+  },
+  {
+    id: "aliado-2",
+    nombre: "Banco Atlántida",
+    logo: "",
+    posicion: 2,
+    estado: "Publicado",
+  },
+  {
+    id: "aliado-3",
+    nombre: "ClearCode Labs",
+    logo: "",
+    posicion: 3,
+    estado: "Publicado",
+  },
+];
+

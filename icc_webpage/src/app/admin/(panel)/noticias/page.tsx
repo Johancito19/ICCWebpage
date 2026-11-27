@@ -1,5 +1,7 @@
 ﻿"use client";
 
+import "@/styles/admin-modulos.css";
+
 import { useState } from "react";
 import {
   NOTICIAS_ADMIN,
@@ -24,11 +26,6 @@ export default function AdminNoticiasPage() {
   const [noticiaEditar, setNoticiaEditar] = useState<NoticiaAdmin | null>(null);
   const [eventoEditar, setEventoEditar] = useState<EventoAdmin | null>(null);
   const [noticiaFoto, setNoticiaFoto] = useState<NoticiaAdmin | null>(null);
-
-  const abrirNuevaNoticia = () => {
-    setNoticiaEditar(null);
-    setModalNoticiaAbierto(true);
-  };
 
   const abrirEditarNoticia = (noticia: NoticiaAdmin) => {
     setNoticiaEditar(noticia);
@@ -105,29 +102,6 @@ export default function AdminNoticiasPage() {
   return (
     <>
       <main className="am-noticias-page">
-        <div className="am-page-header">
-          <div>
-            <span className="am-page-kicker">
-              ICC · UNICAH / ACTUALIDAD ICC
-            </span>
-            <h1>Gestión de Noticias y Próximos Eventos</h1>
-          </div>
-
-          <div className="am-page-header-actions">
-            <button type="button" className="am-btn-secondary">
-              Ver página pública
-            </button>
-
-            <button
-              type="button"
-              className="am-btn-primary"
-              onClick={abrirNuevaNoticia}
-            >
-              + Nueva noticia
-            </button>
-          </div>
-        </div>
-
         <div className="am-toolbar">
           <div className="am-tabs">
             <button
@@ -177,6 +151,7 @@ export default function AdminNoticiasPage() {
             <div className="am-panel-header">
               <div>
                 <span className="am-section-label">ACTUALIDAD ICC</span>
+
                 <h2>
                   {filtro === "eventos"
                     ? "Eventos programados"
@@ -199,7 +174,9 @@ export default function AdminNoticiasPage() {
 
                     <div className="am-publicacion-info">
                       <h3>{noticia.titulo}</h3>
+
                       <p>{noticia.resumen}</p>
+
                       <span className="am-publicacion-categoria">
                         {noticia.categoria}
                       </span>
@@ -262,9 +239,11 @@ export default function AdminNoticiasPage() {
 
                     <div className="am-publicacion-info">
                       <h3>{evento.nombre}</h3>
+
                       <p>
                         {evento.tipo} · {evento.lugar}
                       </p>
+
                       <span className="am-publicacion-categoria">
                         {evento.modalidad}
                       </span>
@@ -303,6 +282,7 @@ export default function AdminNoticiasPage() {
               eventosFiltrados.length === 0 && (
                 <div className="am-empty-state">
                   <h3>No hay contenido disponible</h3>
+
                   <p>Agrega una noticia o evento para comenzar.</p>
                 </div>
               )}
@@ -312,6 +292,7 @@ export default function AdminNoticiasPage() {
             <div className="am-panel-header">
               <div>
                 <span className="am-section-label">AGENDA ACADÉMICA</span>
+
                 <h2>Próximos eventos en Home</h2>
               </div>
             </div>
