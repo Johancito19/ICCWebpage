@@ -114,24 +114,7 @@ export default function Sidebar({ onAbrirModalSalir }: SidebarProps) {
                 strokeLinejoin="round"
               />
             </svg>
-            <span>Áreas y Laboratorios</span>
-          </Link>
-
-          <Link
-            href="/admin/areas"
-            className="adm-nav-link"
-          >
-            <svg viewBox="0 0 20 20" fill="none" className="adm-nav-icon">
-              <circle cx="7.5" cy="7" r="2.5" stroke="currentColor" strokeWidth="1.6" />
-              <circle cx="13.5" cy="7.5" r="2" stroke="currentColor" strokeWidth="1.5" />
-              <path
-                d="M3 15.5C3 13.3 5 11.8 7.5 11.8C10 11.8 12 13.3 12 15.5M12.5 12.2C14.8 12.3 16.8 13.5 17 15.5"
-                stroke="currentColor"
-                strokeWidth="1.6"
-                strokeLinecap="round"
-              />
-            </svg>
-            <span>Vinculación y Aliados</span>
+            <span>Áreas, Laboratorios y Aliados</span>
           </Link>
 
           <Link
