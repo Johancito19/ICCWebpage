@@ -4,7 +4,9 @@ import EncabezadoPublico from "@/components/publico/EncabezadoPublico";
 import GaleriaAreas from "@/components/publico/GaleriaAreas";
 import HeroPublico from "@/components/publico/HeroPublico";
 import PerspectivaIcc from "@/components/publico/PerspectivaIcc";
+import PieDePagina from "@/components/publico/PieDePagina";
 import QuienesSomos from "@/components/publico/QuienesSomos";
+import Vinculacion from "@/components/publico/Vinculacion";
 import VozEstudiantil from "@/components/publico/VozEstudiantil";
 import "@/styles/publico.css";
 
@@ -27,15 +29,9 @@ export default function HomePublico() {
 
         <VozEstudiantil />
 
-        <section className="pub-section" aria-labelledby="vinculacion">
-          <div className="pub-container">
-            <p className="pub-eyebrow">Vinculación</p>
-            <h2 className="pub-section-title" id="vinculacion">
-              Conecta tus ideas para abrir posibilidades...
-            </h2>
-          </div>
-        </section>
+        <Vinculacion />
       </main>
+      <PieDePagina />
     </div>
   );
 }
