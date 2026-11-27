@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import MenuMovil from "@/components/publico/MenuMovil";
 
 const navigation = [
   { label: "Inicio", href: "/" },
@@ -16,14 +17,22 @@ export default function EncabezadoPublico() {
     <header className="pub-header">
       <div className="pub-container pub-header-row">
         <Link className="pub-brand" href="/">
-          <Image
-            src="/img/publico/logo-icc.png"
-            alt="ICC · UNICAH"
-            width={136}
-            height={60}
-            loading="eager"
-            unoptimized
-          />
+          <picture>
+            <source
+              media="(width < 64rem)"
+              srcSet="/img/publico/logo-icc-compacto.png"
+              width={104}
+              height={46}
+            />
+            <Image
+              src="/img/publico/logo-icc.png"
+              alt="ICC · UNICAH"
+              width={136}
+              height={60}
+              loading="eager"
+              unoptimized
+            />
+          </picture>
         </Link>
 
         <nav className="pub-navigation" aria-label="Navegación principal">
@@ -48,10 +57,13 @@ export default function EncabezadoPublico() {
           </ul>
         </nav>
 
-        <span className="btn-amarillo pub-admissions" role="link" aria-disabled="true">
-          Admisiones
-          <span className="pub-arrow" aria-hidden="true" />
-        </span>
+        <div className="pub-header-actions">
+          <span className="btn-amarillo pub-admissions" role="link" aria-disabled="true">
+            Admisiones
+            <span className="pub-arrow" aria-hidden="true" />
+          </span>
+          <MenuMovil navigation={navigation} />
+        </div>
       </div>
     </header>
   );
