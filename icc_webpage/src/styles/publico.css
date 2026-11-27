@@ -265,9 +265,10 @@ a.pub-mobile-menu-link:hover {
 }
 
 .pub-hero {
-  background-image:
-    linear-gradient(90deg, rgb(0 32 128 / 42%), rgb(0 32 128 / 29%) 36%, transparent 62%),
-    url("/img/publico/hero-icc.webp");
+  --pub-hero-overlay: linear-gradient(
+    90deg, rgb(0 32 128 / 42%), rgb(0 32 128 / 29%) 36%, transparent 62%
+  );
+  background-image: var(--pub-hero-overlay), url("/img/publico/hero-icc.webp");
   background-position: center;
   background-size: cover;
 }
@@ -346,19 +347,70 @@ a.pub-mobile-menu-link:hover {
   outline-offset: 4px;
 }
 
+@media (width < 64rem) {
+  .pub-hero-content {
+    padding-block-end: 2rem;
+  }
+
+  .pub-hero-copy {
+    margin-block-end: 0.75rem;
+  }
+}
+
 @media (width < 40rem) {
+  .pub-hero {
+    --pub-hero-overlay: linear-gradient(
+      90deg, rgb(0 20 82 / 70%), rgb(0 20 82 / 40%) 40%, transparent 76%
+    );
+    background-position: center, calc(50% - 0.25rem) center;
+  }
+
   .pub-hero-content {
     min-height: min(50rem, calc(100svh - 4rem));
     padding-block-start: 2.5rem;
   }
 
+  .pub-hero .pub-eyebrow {
+    font-size: clamp(0.75rem, 3.6vw, 0.875rem);
+  }
+
+  .pub-hero .pub-title {
+    font-size: clamp(1.875rem, 10.25vw, 2.5rem);
+  }
+
   .pub-hero-copy {
-    margin-block-end: 2.5rem;
+    margin-block-end: 1.5rem;
+  }
+
+  .pub-hero-subtitle {
+    margin-block-start: 1.5rem;
   }
 
   .pub-hero-actions {
     flex-direction: column;
     align-items: flex-start;
+    margin-block-start: 1.75rem;
+  }
+
+  .pub-hero-action.btn-amarillo,
+  .pub-hero-action.btn-outline {
+    min-width: 11.25rem;
+  }
+}
+
+@media (width < 40rem) and (height < 43rem) {
+  .pub-hero-content {
+    padding-block: 1.5rem;
+  }
+
+  .pub-hero-copy {
+    margin-block-end: 0;
+    padding-block: 1rem;
+  }
+
+  .pub-hero-subtitle,
+  .pub-hero-actions {
+    margin-block-start: 1rem;
   }
 }
 
