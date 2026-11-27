@@ -77,18 +77,9 @@ function ContenidoDocentes() {
             </h2>
           </div>
 
-          <div className="adm-docentes-header-right">
-            <span className="adm-docentes-sort">
-              Orden: Coordinación primero
-            </span>
-            <button
-              type="button"
-              className="adm-btn-secondary adm-btn-edit"
-              onClick={handleAbrirNuevoDocente}
-            >
-              + Agregar docente
-            </button>
-          </div>
+          <span className="adm-docentes-sort">
+            Orden: Coordinación primero
+          </span>
         </div>
 
         <div className="adm-docentes-list">
